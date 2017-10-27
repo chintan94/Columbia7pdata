@@ -1,10 +1,10 @@
 """
 Created on Fri Oct 13 14:07:01 2017
 
-This class takes care of reading tsv files and storing them into the required 
+Takes care of reading tsv files and storing them into the required 
 dataframes.
 
-@author: cd2966
+@author: chintan94
 """
 import pandas as pd
 
@@ -37,7 +37,7 @@ class FileReadUtil:
                   "accountholder_birth_year": "int64",
                   "accountholder_gender" : object,
                   "account_type" : object,
-                  "transaction_description" : object,
+                  "transaction_description" : str,
                   "transaction_swipe_date" : "datetime64",
                   "transaction_settlement_date" : "datetime64",
                   "transaction_amount_in_cents" : "int64",
@@ -47,9 +47,12 @@ class FileReadUtil:
                   "ticker" : object,
                   "cleansed_name" : object}
     
-    
     def read_tsv_into_data_frame(self,file_path,seperator = '\t', rows = None):
-        df = pd.read_csv(file_path, sep = seperator, nrows = rows, dtype = self.dtypes)
+        df = pd.read_csv(file_path, 
+                         sep = seperator, 
+                         nrows = rows, 
+                         dtype = self.dtypes,
+                         error_bad_lines=False)
         df.columns = self.columns
         return df
     
