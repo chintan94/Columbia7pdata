@@ -4,31 +4,30 @@ This is a private repository for 7park Correlation project
 ## The Entity-Ticker Mapper
 ### Input: tsv files
 ### Output: enriched file with entities mapped
+### Storage elements
+TTFD: Total Token Frequency Dictionary 
+TTM: Token -> Ticker Map 
 
 ### Basic Idea:
-
-**Start**: Ignore all the entries which already have the ticker and cleansed_name set. 
+**Start**: 
+0. Ignore all the entries which already have the ticker and cleansed_name set. 
+1. Clean the transaction description and tokenize with spacy.
 
 ### First Time Creation:
-
-    1. Pick up the transaction description field. Strip out the state and city part.
-    2. Run a word frequency algo on that. (A little complicated logic) 
-    3. Define a threshold frequency. (If is crosses the threshold than consider for mapping)
-       Maintain a central frequency counter persistant database. (word : count)
-    4. For all those who cross the threshold -> define ticker and cleansed_name (Hardcoding) 
-       Create a rule. Maintain a rule-system. 
-
-### Automated Processing: 
-    1. Strip the State and city.
-    2. Check the rule book for all the substrings. 
+    2. Calculate the token frequency. Update TTFD.
+    3. Take the top 10-15-20 until we get 10-15 organizations out of those.
+    4. Manually Create TTM. 
+    
+### Automated Processing:  
+    2. Check TTM for each token. And map accordingly. 
     3. If the rule is found:
         Update the ticker and cleansed_name
-    4. Updae the frequency counter. 
+    4. Update the frequency counter. 
 
-**End**: Write all the entries with mapped entity to output file. 
-
-### Suggestion to Joel:
-This is maintained by 7park. Why not filter out City and States and maintain them seperately? 
+### Derivative Creation
+    For each month create seperate derivative files for each mapped ticker.
+    
+**End**: 
 
 ### Suggestion from Joel:
-What should be the threshold? 
+We need 10 more tickers more than the the ones which are already mapped. 
