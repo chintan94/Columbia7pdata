@@ -5,13 +5,15 @@ This is a private repository for 7park Correlation project
 ### Input: tsv files
 ### Output: enriched file with entities mapped
 ### Storage elements
-TTFD: Total Token Frequency Dictionary 
+TTFD: Total Token Frequency Dictionary
+
 TTM: Token -> Ticker Map 
 
 ### Basic Idea:
 **Start**: 
-0. Ignore all the entries which already have the ticker and cleansed_name set. 
-1. Clean the transaction description and tokenize with spacy.
+    
+    0. Ignore all the entries which already have the ticker and cleansed_name set. 
+    1. Clean the transaction description and tokenize with spacy.
 
 ### First Time Creation:
     2. Calculate the token frequency. Update TTFD.
@@ -25,7 +27,7 @@ TTM: Token -> Ticker Map
     4. Update the frequency counter. 
 
 ### Derivative Creation
-    For each month create seperate derivative files for each mapped ticker.
+    5. For each month create seperate derivative files for each mapped ticker.
     
 **End**: 
 
