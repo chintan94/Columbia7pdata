@@ -20,14 +20,18 @@ class FrequencyCountUtil:
        self.nlp = spacy.load('en')
        
     def process_desc(self,desc):
-        return desc.rsplit(" ",2)[0].decode(self.string_format)
+        return desc.rsplit(" ",2)[0].decode(self.string_format).title()
     
     def freqCount(self,df):
         frequency = Counter()
-        desc_list = df['transaction_description']        
-        for i in desc_list:
-            if type(i) == str:
-                doc = self.nlp(self.process_desc(i))
-                for j in doc.ents:
-                    frequency[j.lemma_] += 1
+        for index, row in df.iterrows():
+            if type(row['transaction_description']) == str:
+                if type(row['ticker']) != str:
+                    doc = self.nlp(self.process_desc(row['transaction_description']))
+                    for j in doc.ents:
+                        if j.lemma_.isdigit() is False:
+                            frequency[j.lemma_] += 1
         return frequency
+
+                    
+                    

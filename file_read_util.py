@@ -52,7 +52,8 @@ class FileReadUtil:
                          sep = seperator, 
                          nrows = rows, 
                          dtype = self.dtypes,
-                         error_bad_lines=False)
+                         error_bad_lines=False,
+                         low_memory = False)
         df.columns = self.columns
         return df
     
