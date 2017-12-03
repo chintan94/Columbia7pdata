@@ -27,18 +27,19 @@ for file in file_list:
     if file.endswith(extension):  
         print "Reading from " + file
         start = time.clock()
-        df = fileReader.read_tsv_into_data_frame(file, rows = 10000)
+        df = fileReader.read_tsv_into_data_frame(file)
         dgUtil.update_tickers(df)
-        df =df.dropna(subset=['ticker'])
+        df = df.dropna(subset=['ticker'])
         unique = df.ticker.unique()
         for i in unique:
             temp = df.loc[df.ticker==i]
             temp.to_csv(os.path.join(os.path.dirname(file),
                                      i + '.tsv'),
-                                     sep = '\t')
-            
+                                     sep = '\t',
+                                     index = False,
+                                     header = False)
+         
         end = time.clock()
-        break
         print "Time taken for " + file + " " + str((end-start))
 
 

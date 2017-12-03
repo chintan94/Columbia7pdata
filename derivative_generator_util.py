@@ -10,28 +10,40 @@ import pandas as pd
 
 class DerivativeGeneratorUtil:
     
-    ttm = {'kroger':['Kroger Co', 'KR'], 
+    ttm = {'wal-mart': ['Wal-Mart Stores Inc', 'WMT'], 
+           'kroger':['Kroger Co', 'KR'], 
            'chevron': ['Chevron Corporation', 'CVX'], 
-           'wal - mart': ['Wal-Mart Stores Inc', 'WMT'], 
            'family dollar': ['Family Dollar Stores, Inc.', 'FDO'], 
            'mcdonald': ["McDonald's Corporation", 'MCD'], 
            'domino': ["Domino's Pizza Group", 'DOM'], 
            'sonic': ['Sonic Corporation', 'SONC'], 
-           'fred': ["Fred's, Inc.", 'FRED'], 
+           'freds': ["Fred's, Inc.", 'FRED'], 
            'shell service station': ['Royal Dutch Shell plc', 'RDS.A'], 
-           'walgreens store': ['Walgreens Boots Alliance, Inc.', 'WBA'], 
-           'wal wal - mart': ['Wal-Mart Stores Inc', 'WMT'], 
-           'kroger fuel #': ['Kroger Co', 'KR']}
+           'walgreens store': ['Walgreens Boots Alliance, Inc.', 'WBA'],
+           'barnes&noble.com-bn': ['Barnes & Noble, Inc.','BKS'],
+           'wm supercenter':['Wal-Mart Stores Inc', 'WMT'],
+           'microsoft':['Microsoft Corporation','MSFT'],
+           'google':['Alphabet Inc','GOOG'],
+           'netflix':['Netflix, Inc','NFLX'],
+           'amazon':['Amazon.com, Inc','AMZN'],
+           'target':['Target Corporation','TGT'],
+           'wendy':["The Wendy's Company",'WEN'],
+           'cvs':['CVS Health Corporation','CVS'],
+           'exxonmobil':['Exxon Mobil Corporation','XOM']
+           }
     
     tickers = [ ]
     def update_tickers(self,df):
         for i in range(len(df['transaction_description'])):
             if pd.isnull(df.loc[i,'ticker']):
+                temp = str(df.loc[i]['transaction_description']).lower()
                 for j in self.ttm.keys():
-                    if j in str(df.iloc[i,9]):
-                        df.iloc[i,15] = self.ttm[j][1]
-                        df.iloc[i,16] = self.ttm[j][0]
-    
+                    if j in temp:
+                        print "Reached here with" + j
+                        df.loc[i,'ticker'] = self.ttm[j][1]
+                        df.loc[i,'cleansed_name'] = self.ttm[j][0]
+                        break
+                        
     def cleanup(self,df):
         df = df.dropna(subset=['accountholder_zip'])
         df = df.dropna(subset=['accountholder_birth_year'])
