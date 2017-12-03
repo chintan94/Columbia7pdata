@@ -36,11 +36,11 @@ class DerivativeGeneratorUtil:
     def update_tickers(self,df):
         for i in range(len(df['transaction_description'])):
             if pd.isnull(df.loc[i,'ticker']):
-                temp = str(df.loc[i]['transaction_description']).lower()
+                temp = str(df.iat[i,9]).lower()
                 for j in self.ttm.keys():
                     if j in temp:
-                        df.loc[i,'ticker'] = self.ttm[j][1]
-                        df.loc[i,'cleansed_name'] = self.ttm[j][0]
+                        df.iat[i,16] = self.ttm[j][1]
+                        df.loc[i,17] = self.ttm[j][0]
                         break
                         
     def cleanup(self,df):
