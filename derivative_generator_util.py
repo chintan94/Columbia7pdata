@@ -40,9 +40,9 @@ class DerivativeGeneratorUtil:
                 for j in self.ttm.keys():
                     if j in temp:
                         df.iat[i,16] = self.ttm[j][1]
-                        df.loc[i,17] = self.ttm[j][0]
+                        df.iat[i,17] = self.ttm[j][0]
                         break
-                        
+                    
     def cleanup(self,df):
         df = df.dropna(subset=['accountholder_zip'])
         df = df.dropna(subset=['accountholder_birth_year'])

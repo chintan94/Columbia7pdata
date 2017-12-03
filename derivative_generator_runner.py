@@ -38,10 +38,10 @@ for file in file_list:
                                      sep = '\t',
                                      index = False,
                                      header = False)
-         
+        
         end = time.clock()
         print "Time taken for " + file + " " + str((end-start))
-
+        break
 
 
 
