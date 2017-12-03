@@ -39,7 +39,6 @@ class DerivativeGeneratorUtil:
                 temp = str(df.loc[i]['transaction_description']).lower()
                 for j in self.ttm.keys():
                     if j in temp:
-                        print "Reached here with" + j
                         df.loc[i,'ticker'] = self.ttm[j][1]
                         df.loc[i,'cleansed_name'] = self.ttm[j][0]
                         break
