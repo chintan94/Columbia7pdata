@@ -1,20 +1,11 @@
-
-# coding: utf-8
-
-# In[1]:
-
 import pandas as pd
 import time
-from collections import Counter
 import file_read_util as fru
-import os
 import numpy as np
-import matplotlib.pyplot as plt
+import scipy 
 
 from sklearn.cluster import KMeans
-from sklearn.datasets import make_blobs
 from sklearn.cluster import DBSCAN
-from sklearn import metrics
 from sklearn.cluster import Birch
 
 
@@ -27,7 +18,6 @@ class ClusterUtil:
         frame=[]
         nrows = []
         extension = '.tsv'
-        
         #read data from csv
         for file in fileList:
             if file.endswith(extension):  
@@ -62,8 +52,17 @@ class ClusterUtil:
                 result.iat[i,7] = -1
             else:
                 result.iat[i,7] = 0
-                
+            
+            try:
+                result.iat[i,4] = int(result.iat[i,4]) 
+            except:
+                result.iat[i,4] = 0
+            
         result['accountholder_gender'] = map(int,result['accountholder_gender'])
+        
+        
+        result.dropna(subset=['accountholder_zip'])
+        result.dropna(subset=['accountholder_gender'])
         
         #split dataframe by month and group subdataframe by person
         nd = []
@@ -72,16 +71,13 @@ class ClusterUtil:
             account = tempd.groupby('accountholder_key')
             newdf = pd.DataFrame(dtype = float)
             newdf = account['transaction_amount_in_cents'].agg([np.size, np.sum])
-            newdf['accountholder_zip'] = account['accountholder_zip'].agg([np.mean])
-            newdf['accountholder_zip'] = map(round,newdf['accountholder_zip']/1000)
-            newdf['accountholder_gender'] = account['accountholder_gender'].agg([np.mean])
-            newdf['accountholder_age'] = account['accountholder_birth_year'].agg([np.mean])
+            newdf['accountholder_zip'] = account['accountholder_zip'].agg(lambda x: scipy.stats.mode(x)[0][0])
+            newdf['accountholder_gender'] = account['accountholder_gender'].agg(lambda x: scipy.stats.mode(x)[0][0])
+            newdf['accountholder_age'] = account['accountholder_birth_year'].agg(lambda x: scipy.stats.mode(x)[0][0])
             newdf['month'] = account['month'].agg([np.mean])
             nd.append(newdf)
         nd = pd.concat(nd)
-        
-        #clean data, drop null elements
-        
+        #clean data, drop null elements  
         cleaned = nd.dropna(subset=['accountholder_zip'])
         cleaned = cleaned.dropna(subset=['accountholder_age'])
         cleaned = cleaned.dropna(subset=['accountholder_gender'])
@@ -122,9 +118,4 @@ class ClusterUtil:
         lable= np.concatenate(lable)
         return lable
         
-
-
-# In[ ]:
-
-
 

@@ -1,17 +1,7 @@
-
-# coding: utf-8
-
-# In[85]:
-
 import pandas as pd
-import time
-from collections import Counter
-import file_read_util as fru
 import os
 import numpy as np
-import matplotlib.pyplot as plt
 import clustering_util as clu
-from os.path import join, getsize
 
 # name = ['kmeans','dbscan','birch'], for dbscan [eps, min_samples], for birch[branching_factor,threshold]
 # cluster for kmeans must be integer, min_samples for dbscan and branching factor for birch must be integer as well
@@ -78,7 +68,6 @@ def findSimilar(data, prem, nexm):
                 d2.iat[q,i] = macount.index(d2.iat[q,i])
             else:
                 d2.iat[q,i] = -1
-    spending=[]
     newdf1 = pd.DataFrame(dtype = float)
     newdf2 = pd.DataFrame(dtype = float)
     for l in range(6,c):
@@ -87,7 +76,6 @@ def findSimilar(data, prem, nexm):
         newdf1[header[l]] = td1['sum'].agg([np.sum])
         newdf2[header[l]] = td2['sum'].agg([np.sum])
     
-    nheader = newdf1.columns.values
     [nr,nc] = newdf1.shape
     
     for l1 in range(nr):
@@ -120,7 +108,7 @@ def findBest(data, flag):
 
 #main function:
 fl=[]
-for root, dirs, files in os.walk("."):
+for root, dirs, files in os.walk("../test/"):
     for name in files:
         fl.append(os.path.join(root, name))
 
@@ -138,74 +126,3 @@ da2 = findSimilar(data_db,10,11)
 [name1, result1] = findBest(da1,1)
 [name2, result2] = findBest(da2,1)
 #[name3, result3] = findBest(da3,1)
-
-
-# In[86]:
-
-
-
-
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
-
